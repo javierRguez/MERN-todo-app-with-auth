@@ -1,0 +1,33 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": [
+       
+        "airbnb",
+        "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+        
+        "ecmaVersion": 12
+    },
+    "plugins": [
+       
+    ],
+    "rules": {
+        "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+        "prettier/prettier": [
+          "error",
+          {
+            "printWidth": 80,
+            "trailingComma": "es5",
+            "semi": false,
+            "singleQuote": true,
+            "useTabs": false,
+            "endOfLine": "auto"
+          }
+        ]
+      }
+}
