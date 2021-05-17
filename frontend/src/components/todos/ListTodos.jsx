@@ -1,7 +1,10 @@
-import React from 'react'
+/* eslint-disable no-underscore-dangle */
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Todo from './Todo'
+import { getTodos } from '../../store/actions/todoActions'
 
 const useStyles = makeStyles({
   todosStyle: {
@@ -14,11 +17,19 @@ const useStyles = makeStyles({
 
 const ListTodos = () => {
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const todos = useSelector((state) => state.todos)
+
+  useEffect(() => {
+    dispatch(getTodos())
+  }, [dispatch])
   return (
     <>
       <div className={classes.todosStyle}>
-        <Typography variant="h5">TheTodos</Typography>
-        <Todo />
+        <Typography variant="h5">
+          {todos.length > 0 ? 'TheTodos' : 'noTodosYet'}
+        </Typography>
+        {todos && todos.map((todo) => <Todo todo={todo} key={todo._id} />)}
       </div>
     </>
   )
