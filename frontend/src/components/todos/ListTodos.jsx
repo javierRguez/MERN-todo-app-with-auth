@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
   },
 })
 
-const ListTodos = () => {
+const ListTodos = ({ setTodo }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const todos = useSelector((state) => state.todos)
@@ -29,7 +30,10 @@ const ListTodos = () => {
         <Typography variant="h5">
           {todos.length > 0 ? 'TheTodos' : 'noTodosYet'}
         </Typography>
-        {todos && todos.map((todo) => <Todo todo={todo} key={todo._id} />)}
+        {todos &&
+          todos.map((todo) => (
+            <Todo todo={todo} key={todo._id} setTodo={setTodo} />
+          ))}
       </div>
     </>
   )

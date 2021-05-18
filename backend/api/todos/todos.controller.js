@@ -59,7 +59,6 @@ async function update(req, res) {
 exports.update = update
 
 async function partiallyUpdate(req, res) {
-  console.log('dentro')
   try {
     const todo = await Todo.findById(req.params.id)
 

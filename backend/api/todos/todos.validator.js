@@ -34,6 +34,8 @@ exports.partiallyUpdate = {
   }),
 }
 
-exports.delete = {
-  body: SCHEMA,
+exports.remove = {
+  params: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
 }
