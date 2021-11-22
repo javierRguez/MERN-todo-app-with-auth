@@ -1,12 +1,12 @@
-import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-
 import { ToastContainer } from 'react-toastify'
-import Todos from './components/todos/Todos'
-import SignIn from './components/auth/SignIn'
-import SignUp from './components/auth/SignUp'
+import { loadUser } from './store/actions/authActions'
+import Routes from './Routes'
+
 import NavBar from './components/navBar/NavBar'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,22 +19,21 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loadUser())
+  }, [dispatch])
   return (
-    <>
-      <BrowserRouter>
-        <ToastContainer />
-        <Container maxWidth="md">
-          <NavBar />
-          <Container className={classes.contentStyle} maxWidth="sm">
-            <Switch>
-              <Route path="/signin" component={SignIn} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/" component={Todos} />
-            </Switch>
-          </Container>
+    <BrowserRouter>
+      <ToastContainer />
+      <Container maxWidth="md">
+        <NavBar />
+        <Container className={classes.contentStyle} maxWidth="sm">
+          <Routes />
         </Container>
-      </BrowserRouter>
-    </>
+      </Container>
+    </BrowserRouter>
   )
 }
 

@@ -1,12 +1,13 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import url from '../../api'
+import { url, setHeaders } from '../../api'
 
 const getTodos = () => {
   return (dispatch) => {
     axios
-      .get(`${url}/todos`)
+      .get(`${url}/todos`, setHeaders())
       .then((todos) => {
         dispatch({
           type: 'GET_TODOS',
@@ -21,8 +22,10 @@ const getTodos = () => {
 
 const addTodo = (newTodo) => {
   return (dispatch, getState) => {
+    const author = getState().auth.name
+    const uid = getState().auth._id
     axios
-      .post(`${url}/todos`, newTodo)
+      .post(`${url}/todos`, { ...newTodo, author, uid }, setHeaders())
       .then((todo) => {
         dispatch({
           type: 'ADD_TODO',
@@ -41,7 +44,7 @@ const addTodo = (newTodo) => {
 const updateTodo = (updatedTodo, id) => {
   return (dispatch) => {
     axios
-      .put(`${url}/todos/${id}`, updatedTodo)
+      .put(`${url}/todos/${id}`, updatedTodo, setHeaders())
       .then((todo) => {
         dispatch({
           type: 'UPDATE_TODO',
@@ -60,7 +63,7 @@ const updateTodo = (updatedTodo, id) => {
 const checkTodo = (id) => {
   return (dispatch) => {
     axios
-      .patch(`${url}/todos/${id}`, {})
+      .patch(`${url}/todos/${id}`, {}, setHeaders())
       .then((todo) => {
         dispatch({
           type: 'CHECK_TODO',
@@ -77,10 +80,9 @@ const checkTodo = (id) => {
 }
 
 const deleteTodo = (id) => {
-  console.log('id', id)
   return (dispatch) => {
     axios
-      .delete(`${url}/todos/${id}`)
+      .delete(`${url}/todos/${id}`, setHeaders())
       .then(() => {
         dispatch({
           type: 'DELETE_TODO',

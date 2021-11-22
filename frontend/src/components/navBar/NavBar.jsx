@@ -1,51 +1,54 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import { AppBar, Typography, Toolbar, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import styled from 'styled-components'
+import SearchBar from './SearchBar'
+import { signOut } from '../../store/actions/authActions'
 
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
-  linkStyle: {
-    color: '#fafafa',
-    textDecoration: 'none',
-  },
-  authButton: {},
-})
+const TypoRoot = styled(Typography)`
+  flex-grow: 1;
+`
+const LinkStyle = styled(Link)`
+  color: #fafafa;
+  text-decoration: none;
+`
 
 const NavBar = () => {
-  const classes = useStyles()
-  const history = useHistory()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.name)
+  console.log(user)
   const handleSignOut = () => {
-    // signOut the user
-    history.push('/signin')
+    dispatch(signOut())
+    navigate('/signin')
   }
   return (
     <>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.root} variant="h4">
-            <Link className={classes.linkStyle} to="/">
-              toDoApp
-            </Link>
-          </Typography>
-          <Typography className={classes.root} variant="subtitle2">
-            logged in as Chaoo
-          </Typography>
-          <Button color="inherit" onClick={() => handleSignOut()}>
-            SignOut
-          </Button>
-          <Button color="inherit">
-            <Link className={classes.linkStyle} to="/signin">
-              SignIn
-            </Link>
-          </Button>
-          <Button color="inherit">
-            <Link className={classes.linkStyle} to="/signup">
-              SignUp
-            </Link>
-          </Button>
+          <LinkStyle to="/">
+            <TypoRoot variant="body2" style={{ fontWeight: 'bolder' }}>
+              TODOAPP{' '}
+            </TypoRoot>
+          </LinkStyle>
+
+          <SearchBar />
+          <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'end' }}>
+            <Button color="inherit" onClick={() => handleSignOut()}>
+              <Typography variant="body2">SignOut</Typography>
+            </Button>
+            <Button color="inherit">
+              <LinkStyle to="/signin">
+                <Typography variant="body2">SignIn</Typography>
+              </LinkStyle>
+            </Button>
+            <Button color="inherit">
+              <LinkStyle to="/signup">
+                <Typography variant="body2">SignUp</Typography>
+              </LinkStyle>
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
     </>
